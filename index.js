@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
-const PORT = 5000;
+
 const mysql = require("mysql");
-const cors = require("cors");
+
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -18,7 +18,7 @@ const db = mysql.createPool({
 });
 
 app.use(express.json());
-app.use(cors());
+
 
 app.post("/cadastro", (req, res) => {
   const name = req.body.name;
@@ -70,6 +70,8 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log("Servidor Rodando na porta " + PORT);
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => {
+  console.log("Servidor Rodando na porta " + port);
 });
