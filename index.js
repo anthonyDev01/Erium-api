@@ -7,11 +7,14 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const db = mysql.createPool({
-  host: "localhost",
-  user: "admin",
-  password: "123456",
-  database: "erium",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DBNAME,
   port: 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
 app.use(express.json());
@@ -24,7 +27,7 @@ app.post("/cadastro", (req, res) => {
 
   db.query("select * from usuario where email = ?", [email], (err, result) => {
     if (err) {
-      res.send(err)
+      res.send(err);
     }
     if (result.length == 0) {
       bcrypt.hash(password, saltRounds, (erro, hash) => {
