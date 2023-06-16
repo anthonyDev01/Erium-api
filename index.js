@@ -17,6 +17,12 @@ const db = mysql.createPool({
   queueLimit: 0,
 });
 
+console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_USERNAME:", process.env.DB_USERNAME);
+console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+console.log("DB_DBNAME:", process.env.DB_DBNAME);
+
+
 app.use(express.json());
 
 app.post("/cadastro", (req, res) => {
