@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-require("dotenv").config()
+require("dotenv").config();
 
 const mysql = require("mysql");
 
@@ -18,11 +18,17 @@ const db = mysql.createPool({
   queueLimit: 0,
 });
 
+app.get("/", (req, res) => {
+  console.log("DB_HOST:", process.env.DB_HOST);
+  console.log("DB_USERNAME:", process.env.DB_USERNAME);
+  console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+  console.log("DB_DBNAME:", process.env.DB_DBNAME);
+});
+
 console.log("DB_HOST:", process.env.DB_HOST);
 console.log("DB_USERNAME:", process.env.DB_USERNAME);
 console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
 console.log("DB_DBNAME:", process.env.DB_DBNAME);
-
 
 app.use(express.json());
 
