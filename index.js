@@ -18,10 +18,7 @@ const db = mysql.createPool({
   queueLimit: 0,
 });
 
-app.get("/", (req, res) => {
-  console.log("Hellow World");
-  
-});
+
 
 console.log("DB_HOST:", process.env.DB_HOST);
 console.log("DB_USERNAME:", process.env.DB_USERNAME);
