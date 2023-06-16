@@ -19,8 +19,8 @@ const db = mysql.createPool({
 
 app.use(express.json());
 
-
 app.post("/cadastro", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
