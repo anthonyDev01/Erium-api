@@ -5,6 +5,8 @@ const app = express();
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const cors = require('cors');
+
 
 const db = mysql.createPool({
   host: process.env.DB_HOST,
@@ -24,11 +26,7 @@ console.log("DB_DBNAME:", process.env.DB_DBNAME);
 
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+
 
 app.post("/cadastro", (req, res) => {
   const name = req.body.name;
