@@ -1,9 +1,8 @@
-const express = require("express");
-const app = express();
 require("dotenv").config();
 
+const express = require("express");
+const app = express();
 const mysql = require("mysql");
-
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -25,8 +24,13 @@ console.log("DB_DBNAME:", process.env.DB_DBNAME);
 
 app.use(express.json());
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
+
 app.post("/cadastro", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
