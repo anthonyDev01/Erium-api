@@ -1,85 +1,15 @@
-require("dotenv").config();
-
 const express = require("express");
 const app = express();
-const mysql = require("mysql");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-const cors = require('cors');
-
-
-const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DBNAME,
-  port: 3306,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
-
-console.log("DB_HOST:", process.env.DB_HOST);
-console.log("DB_USERNAME:", process.env.DB_USERNAME);
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
-console.log("DB_DBNAME:", process.env.DB_DBNAME);
+const PORT = 5000;
+const userRoutes = require("./routes/userRoutes");
+const authenticateToken = require("./middlewares/authMiddleware");
+const cors = require("cors");
 
 app.use(express.json());
+app.use(cors());
+app.use("/", userRoutes);
+app.use(authenticateToken); // Aplica o middleware de autenticação antes das rotas
 
-
-
-app.post("/cadastro", (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = req.body.password;
-
-  db.query("select * from usuario where email = ?", [email], (err, result) => {
-    if (err) {
-      res.send(err);
-    }
-    if (result.length == 0) {
-      bcrypt.hash(password, saltRounds, (erro, hash) => {
-        db.query(
-          "insert into usuario (nome, email, senha) values (?, ?, ?)",
-          [name, email, hash],
-          (err, response) => {
-            if (err) {
-              res.send(err);
-            }
-            res.send({ msg: "Cadastrado(a) com sucesso" });
-          }
-        );
-      });
-    } else {
-      res.send({ msg: "Email já cadastrado" });
-    }
-  });
-});
-
-app.post("/login", (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  db.query("select * from usuario where email = ?", [email], (err, result) => {
-    if (err) {
-      res.send(err);
-    }
-    if (result.length > 0) {
-      bcrypt.compare(password, result[0].senha, (erro, match) => {
-        if (match) {
-          res.send({ msg: "Usuário logado com sucesso" });
-        } else {
-          res.send({ msg: "Senha incorreta" });
-        }
-      });
-    } else {
-      res.send({ msg: "Email ou senha incorretos" });
-    }
-  });
-});
-
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => {
-  console.log("Servidor Rodando na porta " + port);
+app.listen(PORT, () => {
+  console.log("Servidor Rodando na porta " + PORT);
 });
