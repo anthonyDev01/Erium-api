@@ -269,6 +269,218 @@ const categorias = [
         peso: 150,
       },
     ],
+
+    eletronicos: [
+      {
+        nome: "Laptop",
+        imagem: "laptop.png",
+        tipos: [
+          {
+            nome: "Laptop Ultrabook",
+            imagem: "",
+            peso: 1200,
+          },
+          {
+            nome: "Laptop Gaming",
+            imagem: "",
+            peso: 2500,
+          },
+          {
+            nome: "Laptop Conversível",
+            imagem: "",
+            peso: 1500,
+          },
+          {
+            nome: "Laptop de Uso Geral",
+            imagem: "",
+            peso: 1800,
+          },
+          {
+            nome: "Laptop 2 em 1",
+            imagem: "",
+            peso: 1700,
+          },
+        ],
+      },
+      {
+        nome: "Tablet",
+        imagem: "tablet.png",
+        tipos: [
+          {
+            nome: "Tablet iPad",
+            imagem: "",
+            peso: 600,
+          },
+          {
+            nome: "Tablet Android",
+            imagem: "",
+            peso: 800,
+          },
+          {
+            nome: "Tablet Windows",
+            imagem: "",
+            peso: 900,
+          },
+          {
+            nome: "Tablet com Caneta Stylus",
+            imagem: "",
+            peso: 700,
+          },
+        ],
+      },
+      {
+        nome: "Smartphone",
+        imagem: "smartphone.png",
+        tipos: [
+          {
+            nome: "Smartphone iPhone",
+            imagem: "",
+            peso: 200,
+          },
+          {
+            nome: "Smartphone Android Top de Linha",
+            imagem: "",
+            peso: 180,
+          },
+          {
+            nome: "Smartphone Android de Médio Porte",
+            imagem: "",
+            peso: 150,
+          },
+          {
+            nome: "Smartphone com Bateria de Longa Duração",
+            imagem: "",
+            peso: 170,
+          },
+        ],
+      },
+      {
+        nome: "Fones de Ouvido",
+        imagem: "fones-de-ouvido.png",
+        tipos: [
+          {
+            nome: "Fones de Ouvido Over-Ear",
+            imagem: "",
+            peso: 300,
+          },
+          {
+            nome: "Fones de Ouvido In-Ear",
+            imagem: "",
+            peso: 50,
+          },
+          {
+            nome: "Fones de Ouvido Bluetooth",
+            imagem: "",
+            peso: 100,
+          },
+          {
+            nome: "Fones de Ouvido com Cancelamento de Ruído",
+            imagem: "",
+            peso: 250,
+          },
+        ],
+      },
+      {
+        nome: "Câmera",
+        imagem: "camera.png",
+        tipos: [
+          {
+            nome: "Câmera DSLR",
+            imagem: "",
+            peso: 1200,
+          },
+          {
+            nome: "Câmera Mirrorless",
+            imagem: "",
+            peso: 1000,
+          },
+          {
+            nome: "Câmera Compacta",
+            imagem: "",
+            peso: 500,
+          },
+          {
+            nome: "Câmera de Ação",
+            imagem: "",
+            peso: 150,
+          },
+        ],
+      },
+      {
+        nome: "Power Bank",
+        imagem: "power-bank.png",
+        peso: 300,
+      },
+      
+      {
+        nome: "Adaptadores de Tomada",
+        imagem: "adaptadores-tomada.png",
+        peso: 50,
+      },
+      {
+        nome: "Relógio",
+        imagem: "relogio.png",
+        tipos: [
+          {
+            nome: "Smartwatch",
+            imagem: "",
+            peso: 100,
+          },
+          {
+            nome: "Relógio Esportivo",
+            imagem: "",
+            peso: 120,
+          },
+          {
+            nome: "Relógio Elegante",
+            imagem: "",
+            peso: 80,
+          },
+        ],
+      },
+      {
+        nome: "Câmera de Vídeo",
+        imagem: "camera-video.png",
+        tipos: [
+          {
+            nome: "Câmera de Vídeo Profissional",
+            imagem: "",
+            peso: 2500,
+          },
+          {
+            nome: "Câmera de Vídeo Portátil",
+            imagem: "",
+            peso: 1200,
+          },
+          {
+            nome: "Câmera de Vídeo de Ação",
+            imagem: "",
+            peso: 150,
+          },
+        ],
+      },
+      {
+        nome: "Caixa de Som Portátil",
+        imagem: "caixa-som-portatil.png",
+        tipos: [
+          {
+            nome: "Caixa de Som Bluetooth",
+            imagem: "",
+            peso: 400,
+          },
+          {
+            nome: "Caixa de Som à Prova d'Água",
+            imagem: "",
+            peso: 450,
+          },
+          {
+            nome: "Caixa de Som com Luzes LED",
+            imagem: "",
+            peso: 500,
+          },
+        ],
+      },
+    ],
   },
 ];
 
