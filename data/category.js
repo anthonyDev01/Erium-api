@@ -411,7 +411,7 @@ const categorias = [
         imagem: "power-bank.png",
         peso: 300,
       },
-      
+
       {
         nome: "Adaptadores de Tomada",
         imagem: "adaptadores-tomada.png",
@@ -477,6 +477,119 @@ const categorias = [
             nome: "Caixa de Som com Luzes LED",
             imagem: "",
             peso: 500,
+          },
+        ],
+      },
+    ],
+
+    esportivos: [
+      {
+        nome: "Tênis Esportivo",
+        imagem: "tenis-esportivo.png",
+        tipos: [
+          {
+            nome: "Tênis de Corrida",
+            imagem: "",
+            peso: 0.7,
+          },
+          {
+            nome: "Tênis de Academia",
+            imagem: "",
+            peso: 0.6,
+          },
+          {
+            nome: "Tênis de Treino Crossfit",
+            imagem: "",
+            peso: 0.75,
+          },
+        ],
+      },
+      {
+        nome: "Roupas Esportivas",
+        imagem: "roupas-esportivas.png",
+        tipos: [
+          {
+            nome: "Camiseta Técnica",
+            imagem: "",
+            peso: 0.2,
+          },
+          {
+            nome: "Legging Esportiva",
+            imagem: "",
+            peso: 0.25,
+          },
+          {
+            nome: "Shorts de Corrida",
+            imagem: "",
+            peso: 0.15,
+          },
+        ],
+      },
+      {
+        nome: "Equipamentos de Treino",
+        imagem: "equipamentos-treino.png",
+        tipos: [
+          {
+            nome: "Corda de Pular",
+            imagem: "",
+            peso: 0.15,
+          },
+          {
+            nome: "Faixas de Resistência",
+            imagem: "",
+            peso: 0.2,
+          },
+          {
+            nome: "Luvas de Academia",
+            imagem: "",
+            peso: 0.25,
+          },
+        ],
+      },
+      {
+        nome: "Toalha Esportiva",
+        imagem: "toalha-esportiva.png",
+        peso: 0.3,
+      },
+      {
+        nome: "Garrafa de Água",
+        imagem: "garrafa-agua.png",
+        peso: 0.2,
+      },
+      {
+        nome: "Bola Esportiva",
+        imagem: "bola-esportiva.png",
+        tipos: [
+          {
+            nome: "Bola de Futebol",
+            imagem: "",
+            peso: 0.4,
+          },
+          {
+            nome: "Bola de Basquete",
+            imagem: "",
+            peso: 0.5,
+          },
+          {
+            nome: "Bola de Tênis",
+            imagem: "",
+            peso: 0.1,
+          },
+        ],
+      },
+      {
+        nome: "Acessórios de Proteção",
+        imagem: "acessorios-protecao.png",
+        tipos: [
+          {
+            nome: "Caneleiras",
+            imagem: "",
+            peso: 0.3,
+          },
+          {
+            nome: "Joelheiras",
+            imagem: "",
+            peso: 0.4,
           },
         ],
       },
