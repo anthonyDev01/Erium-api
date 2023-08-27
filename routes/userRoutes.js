@@ -5,8 +5,7 @@ const db = require("../database");
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("../middlewares/authMiddleware");
 const router = express.Router();
-const category = require("../data/category")
-
+const category = require("../data/category");
 
 // Configurações do JWT
 const jwtSecret = "senzapdaspdkaspkdamdm";
@@ -21,6 +20,7 @@ router.post("/cadastro", (req, res) => {
     if (err) {
       res.send(err);
     }
+    
     if (result.length == 0) {
       bcrypt.hash(password, saltRounds, (erro, hash) => {
         db.query(
@@ -68,10 +68,9 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/pagina-protegida", authenticateToken, (req, res) => {
-  
-  const categorias = category
-  
-  res.json(categorias)
+  const categorias = category;
+
+  res.json(categorias);
 });
 
 router.get("/imagens/:nome", (req, res) => {
