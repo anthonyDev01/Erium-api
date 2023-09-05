@@ -3,13 +3,15 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const db = require("../database");
 const jwt = require("jsonwebtoken");
-const authenticateToken = require("../middlewares/authMiddleware");
 const router = express.Router();
 const category = require("../data/category");
+const authenticateToken = require("../middlewares/authMiddleware");
 
 // Configurações do JWT
 const jwtSecret = "senzapdaspdkaspkdamdm";
 const jwtExpiresIn = "1d";
+
+
 
 router.post("/cadastro", (req, res) => {
   const name = req.body.name;
@@ -20,7 +22,7 @@ router.post("/cadastro", (req, res) => {
     if (err) {
       res.send(err);
     }
-    
+
     if (result.length == 0) {
       bcrypt.hash(password, saltRounds, (erro, hash) => {
         db.query(
@@ -69,13 +71,60 @@ router.post("/login", (req, res) => {
 
 router.get("/pagina-protegida", authenticateToken, (req, res) => {
   const categorias = category;
-
+  console.log(req.user.email);
   res.json(categorias);
 });
 
-router.get("/imagens/:nome", (req, res) => {
+router.get("/imagens/:nome", authenticateToken, (req, res) => {
   const nomeImagem = req.params.nome;
+
   res.sendFile(`${__dirname}/assets/${nomeImagem}`);
+});
+
+router.post("/bagagem", authenticateToken, (req, res) => {
+  const email = req.user.email;
+
+  const consultaIdUsuarioEidItem = `
+  SELECT usuario.idUsuario, bagagem.idBagagem
+  FROM usuario
+  INNER JOIN bagagem ON usuario.idUsuario = bagagem.usuario_idUsuario
+  WHERE usuario.email = ?
+
+`;
+
+  db.query(consultaIdUsuarioEidItem, [email], (err, result) => {
+    if (err) {
+      res.send(err);
+    }
+
+    if (result.length != 0) {
+      const idUsuario = result[0].idUsuario;
+      const idBagagem = result[0].idBagagem;
+      const nome = req.body.nome;
+      const peso = req.body.peso;
+      const imagem = req.body.imagem;
+      const quantidade = req.body.quantidade;
+
+      /*
+      console.log("idUsuario recebido: ", idUsuario);
+      console.log("idBagagem recebido: ", idBagagem);
+      console.log("nome recebido: ", nome);
+      console.log("peso recebido: ", peso);
+      console.log("imagem recebido: ", imagem);
+      console.log("quantidade recebido: ", quantidade);
+      */
+
+      db.query(
+        "insert into itembagagem(nome, peso, imagem, quantidade, bagagem_idBagagem, bagagem_usuario_idUsuario) values (?, ?, ?, ?, ?, ?)",
+        [nome, peso, imagem, quantidade, idBagagem, idUsuario],
+        (error, resposta) => {
+          if (error) {
+            res.send(err);
+          }
+        }
+      );
+    }
+  });
 });
 
 module.exports = router;
