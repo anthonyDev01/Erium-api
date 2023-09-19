@@ -3,14 +3,15 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const db = require("../database");
 const jwt = require("jsonwebtoken");
-const authenticateToken = require("../middlewares/authMiddleware");
 const router = express.Router();
-const category = require("../data/category")
-
+const category = require("../data/category");
+const authenticateToken = require("../middlewares/authMiddleware");
 
 // Configurações do JWT
 const jwtSecret = "senzapdaspdkaspkdamdm";
 const jwtExpiresIn = "1d";
+
+
 
 router.post("/cadastro", (req, res) => {
   const name = req.body.name;
@@ -21,6 +22,7 @@ router.post("/cadastro", (req, res) => {
     if (err) {
       res.send(err);
     }
+
     if (result.length == 0) {
       bcrypt.hash(password, saltRounds, (erro, hash) => {
         db.query(
@@ -55,6 +57,7 @@ router.post("/login", (req, res) => {
           const token = jwt.sign({ email }, jwtSecret, {
             expiresIn: jwtExpiresIn,
           });
+          req.email = email
 
           res.send({ msg: "Usuário logado com sucesso", token });
         } else {
@@ -68,15 +71,17 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/pagina-protegida", authenticateToken, (req, res) => {
+  const categorias = category;
   
-  const categorias = category
-  
-  res.json(categorias)
+  res.json(categorias);
 });
 
-router.get("/imagens/:nome", (req, res) => {
+router.get("/imagens/:nome", authenticateToken, (req, res) => {
   const nomeImagem = req.params.nome;
+
   res.sendFile(`${__dirname}/assets/${nomeImagem}`);
 });
+
+
 
 module.exports = router;
