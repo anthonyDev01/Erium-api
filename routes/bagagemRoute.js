@@ -3,14 +3,15 @@ const db = require("../database");
 const authenticateToken = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-<<<<<<< HEAD
+router.post("/id-malas", authenticateToken, (req, res) => {
+  const idSalvo = req.body.id;
+  req.idMala = idSalvo;
+
+});
+
 router.post("/bagagem", authenticateToken, (req, res) => {
   const email = req.user.email;
   console.log(email);
-=======
-router.post("/bagagem", (req, res) => {
-  const email = req.user.email;
->>>>>>> 22cadf1721c3af3adf20e7f097ada68bfdf50030
 
   const consultaIdUsuarioEidItem = `
   SELECT usuario.idUsuario, bagagem.idBagagem
@@ -33,19 +34,8 @@ router.post("/bagagem", (req, res) => {
       const imagem = req.body.imagem;
       const quantidade = req.body.quantidade;
 
-<<<<<<< HEAD
       console.log("idUsuario recebido: ", idUsuario);
       console.log("idBagagem recebido: ", idBagagem);
-=======
-      /*
-      console.log("idUsuario recebido: ", idUsuario);
-      console.log("idBagagem recebido: ", idBagagem);
-      console.log("nome recebido: ", nome);
-      console.log("peso recebido: ", peso);
-      console.log("imagem recebido: ", imagem);
-      console.log("quantidade recebido: ", quantidade);
-      */
->>>>>>> 22cadf1721c3af3adf20e7f097ada68bfdf50030
 
       db.query(
         "insert into itembagagem(nome, peso, imagem, quantidade, bagagem_idBagagem, bagagem_usuario_idUsuario) values (?, ?, ?, ?, ?, ?)",
@@ -60,7 +50,6 @@ router.post("/bagagem", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
 router.post("/malaUsuario", authenticateToken, (req, res) => {
   const email = req.user.email;
 
@@ -90,6 +79,31 @@ router.post("/malaUsuario", authenticateToken, (req, res) => {
   );
 });
 
-=======
->>>>>>> 22cadf1721c3af3adf20e7f097ada68bfdf50030
+router.get("/malaUsuario", authenticateToken, (req, res) => {
+  const email = req.user.email;
+
+  db.query(
+    "select idUsuario from usuario where email = ?",
+    [email],
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      }
+
+      const idUsuario = result[0].idUsuario;
+
+      db.query(
+        "select * from bagagem where usuario_idUsuario = ?",
+        [idUsuario],
+        (error, resposta) => {
+          if (error) {
+            res.send(err);
+          }
+          res.json(resposta);
+        }
+      );
+    }
+  );
+});
+
 module.exports = router;
