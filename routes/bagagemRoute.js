@@ -3,15 +3,27 @@ const db = require("../database");
 const authenticateToken = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-router.post("/id-malas", authenticateToken, (req, res) => {
-  const idSalvo = req.body.id;
-  req.idMala = idSalvo;
 
+router.get("/bagagem", authenticateToken, (req, res) => {
+  const idMala = req.query.id;
+
+  db.query("select * from itembagagem where bagagem_idBagagem = ?", [idMala], (err, result) => {
+    if (err) {
+      res.send(err);
+    }
+
+    if (result.length != 0) {
+      
+      res.json(result);
+      
+    }
+  });
 });
+
 
 router.post("/bagagem", authenticateToken, (req, res) => {
   const email = req.user.email;
-  console.log(email);
+  const idSalvo = req.query.id
 
   const consultaIdUsuarioEidItem = `
   SELECT usuario.idUsuario, bagagem.idBagagem
@@ -28,15 +40,21 @@ router.post("/bagagem", authenticateToken, (req, res) => {
 
     if (result.length != 0) {
       const idUsuario = result[0].idUsuario;
-      const idBagagem = result[0].idBagagem;
+      let idBagagem = 0
+      
+      if (idSalvo.length > 0) {
+        idBagagem = idSalvo
+      }
+      else{
+        idBagagem = result.pop().idBagagem
+      } 
+
       const nome = req.body.nome;
       const peso = req.body.peso;
       const imagem = req.body.imagem;
       const quantidade = req.body.quantidade;
 
-      console.log("idUsuario recebido: ", idUsuario);
-      console.log("idBagagem recebido: ", idBagagem);
-
+ 
       db.query(
         "insert into itembagagem(nome, peso, imagem, quantidade, bagagem_idBagagem, bagagem_usuario_idUsuario) values (?, ?, ?, ?, ?, ?)",
         [nome, peso, imagem, quantidade, idBagagem, idUsuario],
@@ -49,6 +67,7 @@ router.post("/bagagem", authenticateToken, (req, res) => {
     }
   });
 });
+
 
 router.post("/malaUsuario", authenticateToken, (req, res) => {
   const email = req.user.email;
@@ -105,5 +124,6 @@ router.get("/malaUsuario", authenticateToken, (req, res) => {
     }
   );
 });
+
 
 module.exports = router;

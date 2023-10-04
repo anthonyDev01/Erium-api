@@ -55,6 +55,7 @@ router.post("/login", (req, res) => {
           const token = jwt.sign({ email }, jwtSecret, {
             expiresIn: jwtExpiresIn,
           });
+          
           req.email = email;
 
           res.send({ msg: "Usuário logado com sucesso", token });
