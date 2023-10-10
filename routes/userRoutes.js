@@ -82,4 +82,4 @@ router.get("/imagens/:nome", authenticateToken, (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = router

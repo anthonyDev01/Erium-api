@@ -23,50 +23,53 @@ router.get("/bagagem", authenticateToken, (req, res) => {
 
 router.post("/bagagem", authenticateToken, (req, res) => {
   const email = req.user.email;
-  const idSalvo = req.query.id
+  const idSalvo = req.body.idMala;
+  const itens = req.body.itens; 
 
-  const consultaIdUsuarioEidItem = `
-  SELECT usuario.idUsuario, bagagem.idBagagem
-  FROM usuario
-  INNER JOIN bagagem ON usuario.idUsuario = bagagem.usuario_idUsuario
-  WHERE usuario.email = ?
 
-`;
+  for (let item of itens) {
+    const consultaIdUsuarioEidItem = `
+      SELECT usuario.idUsuario, bagagem.idBagagem
+      FROM usuario
+      INNER JOIN bagagem ON usuario.idUsuario = bagagem.usuario_idUsuario
+      WHERE usuario.email = ?`;
 
-  db.query(consultaIdUsuarioEidItem, [email], (err, result) => {
-    if (err) {
-      res.send(err);
-    }
-
-    if (result.length != 0) {
-      const idUsuario = result[0].idUsuario;
-      let idBagagem = 0
-      
-      if (idSalvo.length > 0) {
-        idBagagem = idSalvo
+    db.query(consultaIdUsuarioEidItem, [email], (err, result) => {
+      if (err) {
+        res.send(err);
       }
-      else{
-        idBagagem = result.pop().idBagagem
-      } 
 
-      const nome = req.body.nome;
-      const peso = req.body.peso;
-      const imagem = req.body.imagem;
-      const quantidade = req.body.quantidade;
+      if (result.length != 0) {
+        const idUsuario = result[0].idUsuario;
+        let idBagagem = 0;
 
- 
-      db.query(
-        "insert into itembagagem(nome, peso, imagem, quantidade, bagagem_idBagagem, bagagem_usuario_idUsuario) values (?, ?, ?, ?, ?, ?)",
-        [nome, peso, imagem, quantidade, idBagagem, idUsuario],
-        (error, resposta) => {
-          if (error) {
-            res.send(err);
-          }
+        if (idSalvo.length > 0) {
+          idBagagem = idSalvo;
+        } else {
+          idBagagem = result.pop().idBagagem;
         }
-      );
-    }
-  });
+
+        const nome = item.nome;
+        const peso = item.peso;
+        const imagem = item.imagem;
+        const quantidade = item.quantidade;
+
+        db.query(
+          "insert into itembagagem(nome, peso, imagem, quantidade, bagagem_idBagagem, bagagem_usuario_idUsuario) values (?, ?, ?, ?, ?, ?)",
+          [nome, peso, imagem, quantidade, idBagagem, idUsuario],
+          (error, resposta) => {
+            if (error) {
+              res.send(err);
+            }
+          }
+        );
+      }
+    });
+  }
+
+  res.status(200).json({ message: "Itens inseridos com sucesso" });
 });
+
 
 
 router.post("/malaUsuario", authenticateToken, (req, res) => {
