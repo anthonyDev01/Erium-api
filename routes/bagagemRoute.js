@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("../database");
 const authenticateToken = require("../middlewares/authMiddleware");
+const { log } = require("async");
 const router = express.Router();
 
 
@@ -8,6 +9,8 @@ router.get("/bagagem", authenticateToken, (req, res) => {
   const idMala = req.query.id;
 
   db.query("select * from itembagagem where bagagem_idBagagem = ?", [idMala], (err, result) => {
+
+    console.log(result);
     if (err) {
       res.send(err);
     }
@@ -19,6 +22,27 @@ router.get("/bagagem", authenticateToken, (req, res) => {
     }
   });
 });
+
+
+router.get("/bagagem-tipo", authenticateToken, (req, res) => {
+  const idBagagem = req.query.id;
+
+  db.query("select * from bagagem where idBagagem = ?", [idBagagem], (err, result) => {
+
+
+    if (err) {
+      res.send(err);
+    }
+
+    if (result.length != 0) {
+      
+      res.json(result);
+      
+    }
+  });
+});
+
+
 
 
 router.post("/bagagem", authenticateToken, (req, res) => {
