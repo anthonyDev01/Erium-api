@@ -1,55 +1,48 @@
 const express = require("express");
 const db = require("../database");
 const authenticateToken = require("../middlewares/authMiddleware");
-const { log } = require("async");
 const router = express.Router();
-
 
 router.get("/bagagem", authenticateToken, (req, res) => {
   const idMala = req.query.id;
 
-  db.query("select * from itembagagem where bagagem_idBagagem = ?", [idMala], (err, result) => {
+  db.query(
+    "select * from itembagagem where bagagem_idBagagem = ?",
+    [idMala],
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      }
 
-    console.log(result);
-    if (err) {
-      res.send(err);
+      if (result.length != 0) {
+        res.json(result);
+      }
     }
-
-    if (result.length != 0) {
-      
-      res.json(result);
-      
-    }
-  });
+  );
 });
-
 
 router.get("/bagagem-tipo", authenticateToken, (req, res) => {
   const idBagagem = req.query.id;
 
-  db.query("select * from bagagem where idBagagem = ?", [idBagagem], (err, result) => {
+  db.query(
+    "select * from bagagem where idBagagem = ?",
+    [idBagagem],
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      }
 
-
-    if (err) {
-      res.send(err);
+      if (result.length != 0) {
+        res.json(result);
+      }
     }
-
-    if (result.length != 0) {
-      
-      res.json(result);
-      
-    }
-  });
+  );
 });
-
-
-
 
 router.post("/bagagem", authenticateToken, (req, res) => {
   const email = req.user.email;
   const idSalvo = req.body.idMala;
-  const itens = req.body.itens; 
-
+  const itens = req.body.itens;
 
   for (let item of itens) {
     const consultaIdUsuarioEidItem = `
@@ -94,9 +87,7 @@ router.post("/bagagem", authenticateToken, (req, res) => {
   res.status(200).json({ message: "Itens inseridos com sucesso" });
 });
 
-
-
-router.post("/malaUsuario", authenticateToken, (req, res) => {
+router.post("/mala-nova", authenticateToken, (req, res) => {
   const email = req.user.email;
 
   db.query(
@@ -113,8 +104,36 @@ router.post("/malaUsuario", authenticateToken, (req, res) => {
       const peso = req.body.peso;
 
       db.query(
-        "insert into bagagem(nomeBagagem, tipoBagagem, pesoBagagem, usuario_idUsuario) values (?, ?, ?, ?)",
-        [nome, tipo, peso, idUsuario],
+        "insert into bagagem(nomeBagagem, tipoBagagem, pesoBagagem, usuario_idUsuario, qtdItens) values (?, ?, ?, ?, ?)",
+        [nome, tipo, peso, idUsuario, quantidade],
+        (error, resposta) => {
+          if (error) {
+            res.send(err);
+          }
+        }
+      );
+    }
+  );
+});
+
+router.put("/mala-peso-quantidade", authenticateToken, (req, res) => {
+  const email = req.user.email;
+
+  db.query(
+    "select idUsuario from usuario where email = ?",
+    [email],
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      }
+
+      const peso = req.body.peso;
+      const quantidade = req.body.quantidade;
+      const idBagagem = req.query.id;
+
+      db.query(
+        "update bagagem set pesoBagagem = ?, qtdItens = ? where idBagagem = ?",
+        [peso, quantidade, idBagagem],
         (error, resposta) => {
           if (error) {
             res.send(err);
@@ -151,6 +170,5 @@ router.get("/malaUsuario", authenticateToken, (req, res) => {
     }
   );
 });
-
 
 module.exports = router;

@@ -60,7 +60,7 @@ router.post("/login", (req, res) => {
 
           res.send({ msg: "Usuário logado com sucesso", token });
         } else {
-          res.send({ msg: "Senha incorreta" });
+          res.send({ msg: "Email ou senha incorretos" });
         }
       });
     } else {
